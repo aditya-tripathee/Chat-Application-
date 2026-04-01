@@ -3,6 +3,7 @@
 import { User } from "../models/userModels.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 export const register = async (req, res) => {
   try {
@@ -95,6 +96,22 @@ export const logout = async (req, res) => {
       .json({ message: "User logout successfully!" });
   } catch (error) {
     console.error("Logout error", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getOtherUsers = async (req, res) => {
+  try {
+    const loggedInUserId = req.id;
+    const othersUsers = await User.find({
+      _id: { $ne: loggedInUserId },
+    }).select("-password");
+    if (!othersUsers) {
+      return res.status(400).json({ message: "Other users not found" });
+    }
+    return res.status(200).json({ othersUsers });
+  } catch (error) {
+    console.error("Get others user error", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
