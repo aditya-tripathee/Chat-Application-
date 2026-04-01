@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 import cors from "cors";
 import { connectDB } from "./config/db.js";
+import userRouter from "./routes/user.route.js";
 
 
 const app = express();
@@ -21,6 +22,10 @@ app.use(cookieParser());
 
 // database 
 connectDB();
+
+
+// Router 
+app.use("/api/v1/user",userRouter);
 
 
 // server 
