@@ -5,6 +5,7 @@ dotenv.config();
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.route.js";
+import messageRouter from "./routes/message.route.js";
 
 
 const app = express();
@@ -26,6 +27,8 @@ connectDB();
 
 // Router 
 app.use("/api/v1/user",userRouter);
+app.use("/api/v1/message",messageRouter);
+
 
 
 // server 
